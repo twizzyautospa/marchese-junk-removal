@@ -213,7 +213,7 @@ html.rm .hero-h1{display:block}
 .amap-stage{position:relative;min-width:0;border-right:1px solid var(--line)}
 .amap-view{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 55% 42%,#111b10 0%,#070a07 72%);cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none}
 .amap-view.drag{cursor:grabbing}
-#mapSvg{display:block;width:100%;height:auto;aspect-ratio:880/830}
+#mapSvg{display:block;width:100%;height:auto;aspect-ratio:1130/1180}
 .m-ctx path{fill:rgba(255,255,255,.022);stroke:rgba(255,255,255,.13);stroke-width:1;vector-effect:non-scaling-stroke}
 .m-cov path{fill:rgba(116,240,30,.08);stroke:rgba(116,240,30,.62);stroke-width:1.4;stroke-linejoin:round;vector-effect:non-scaling-stroke;cursor:pointer;opacity:0;transition:fill .35s,filter .35s,opacity .9s}
 .amap.live .m-cov path{opacity:1}
@@ -241,17 +241,17 @@ html.rm .hero-h1{display:block}
 .amap-zoom{position:absolute;right:14px;top:14px;display:flex;flex-direction:column;gap:6px}
 .amap-zoom button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line2);background:rgba(7,10,7,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:20px;line-height:1;display:grid;place-items:center;transition:.2s}
 .amap-zoom button:hover{background:var(--acc);border-color:var(--acc);color:#0A0D0A}
-.amap-info{position:absolute;left:16px;bottom:16px;width:min(340px,calc(100% - 32px));padding:18px 20px;border:1px solid var(--line2);border-radius:16px;background:rgba(10,13,10,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);display:flex;flex-direction:column;gap:6px}
+.amap-info{position:absolute;right:16px;bottom:16px;width:min(340px,calc(100% - 32px));padding:18px 20px;border:1px solid var(--line2);border-radius:16px;background:rgba(10,13,10,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);display:flex;flex-direction:column;gap:6px}
 .amap-info .mi-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
 .amap-info b{font-size:28px;line-height:1.1;letter-spacing:-.02em;font-weight:700}
 .amap-info .mi-f{color:var(--mut);font-size:14.5px}
 .amap-info .btn{margin-top:10px;align-self:flex-start}
 .amap-side{padding:clamp(20px,2.4vw,30px);display:flex;flex-direction:column;min-width:0}
 .amap-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-.amap-list{display:flex;flex-direction:column;margin-top:10px}
-.amap-list button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 10px;margin:0 -10px;border-radius:10px;text-align:left;font-size:16.5px;font-weight:500;border-bottom:1px solid var(--line);transition:background .2s,color .2s}
+.amap-list{display:grid;grid-template-columns:1fr 1fr;column-gap:22px;margin-top:10px}
+.amap-list button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 10px;margin:0 -10px;border-radius:10px;text-align:left;font-size:15.5px;font-weight:500;white-space:nowrap;border-bottom:1px solid var(--line);transition:background .2s,color .2s}
 .amap-list button i{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none;transition:.2s}
-.amap-list button small{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.34);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.amap-list button small{display:none;margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.34);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
 .amap-list button:hover{background:rgba(255,255,255,.05)}
 .amap-list button.on{background:var(--acc);color:#0A0D0A;font-weight:700;border-color:transparent}
 .amap-list button.on i{background:#0A0D0A}.amap-list button.on small{color:rgba(10,13,10,.6)}
@@ -272,10 +272,11 @@ textarea.inp{padding:14px 16px;min-height:110px;resize:vertical}
   .amap{grid-template-columns:1fr}
   .amap-stage{border-right:0;border-bottom:1px solid var(--line)}
   .amap-info{position:static;width:auto;border:0;border-top:1px solid var(--line);border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;min-height:150px;justify-content:center}
-  .amap-list{flex-direction:row;flex-wrap:wrap;gap:8px}
+  .amap-list{display:flex;flex-wrap:wrap;gap:8px}
   .amap-list button{width:auto;margin:0;padding:0 14px;border:1px solid var(--line2);border-radius:999px;font-size:15px}
   .amap-list button small{display:none}
 }
+@media(max-width:700px){.amap-hud{display:none}.pin text{font-size:11.5px}}
 @media(prefers-reduced-motion:reduce){.pin .pulse,.amap-hud i{animation:none}.m-sweep{display:none}}
 
 /* FAQ */
@@ -567,20 +568,20 @@ a,button,label,summary,.opt,.chip{touch-action:manipulation}
 <section class="sec" id="area" style="padding-top:0">
   <div class="wrap">
     <span class="eyebrow rise">Service area</span>
-    <h2 class="h2 rise"><span>Based in the GTA.</span><em>All over York Region.</em></h2>
+    <h2 class="h2 rise"><span>Based in the GTA.</span><em>Serving all of it.</em></h2>
     <div class="card amap rise" id="amap">
       <div class="amap-stage">
         <div class="amap-view" id="mapView">
-          <svg id="mapSvg" viewBox="100 -45 880 830" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <svg id="mapSvg" viewBox="20 -170 1130 1180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs>
               <pattern id="mGrid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.035)" stroke-width="1"/></pattern>
               <radialGradient id="mGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="rgba(116,240,30,.20)"/><stop offset="1" stop-color="rgba(116,240,30,0)"/></radialGradient>
             </defs>
             <rect x="-400" y="-400" width="1900" height="1700" fill="url(#mGrid)"/>
-            <circle cx="560" cy="360" r="430" fill="url(#mGlow)"/>
-            <g class="m-ctx"><path d="M334 628L336 631L394 769L371 799L372 802L377 802L383 804L386 804L390 802L395 805L398 814L398 817L399 823L398 827L398 828L411 834L419 831L420 829L424 830L424 835L422 835L422 840L420 842L421 846L419 848L419 852L424 855L420 858L420 861L433 871L434 876L436 878L436 883L442 884L441 891L445 894L443 897L447 900L447 905L448 908L452 909L450 904L467 897L481 901L493 899L515 868L526 859L538 840L540 822L554 817L594 833L609 834L626 860L681 858L714 848L718 796L723 793L767 758L787 729L805 713L818 709L829 697L831 685L852 657L871 636L894 622L917 615L947 579L960 557L958 554L951 554L952 552L950 550L947 549L947 547L946 545L939 542L934 544L936 540L935 538L936 534L933 532L931 533L922 529L921 527L914 522L893 454L650 532L334 628Z"/><path d="M131 895L132 899L135 903L187 955L208 977L220 986L229 991L265 1027L284 1003L351 1072L357 1076L372 1071L381 1054L383 1028L382 1000L385 986L415 959L410 955L420 943L434 937L438 929L443 924L450 930L452 927L449 924L453 921L454 919L452 909L447 906L447 900L443 897L445 894L441 891L442 884L436 883L436 878L434 876L433 871L420 861L420 858L424 855L419 852L419 848L421 846L420 842L422 840L422 835L424 835L424 830L420 829L419 831L411 834L398 828L398 827L399 823L398 817L398 814L395 805L390 802L386 804L383 804L377 802L372 802L371 799L394 769L345 652L340 656L334 649L294 699L295 709L289 718L273 762L253 787L223 810L189 852L169 860L155 873L157 875L150 877L144 880L131 895Z"/><path d="M37 752L155 873L169 860L189 852L223 810L253 787L273 762L289 718L295 709L294 699L334 649L340 656L345 652L336 631L332 625L327 608L267 466L193 558L173 579L168 587L119 647L113 640L100 656L107 663L73 705L54 731L37 752Z"/><path d="M-267 438L37 752L54 731L73 705L107 663L100 656L113 640L119 647L168 587L173 579L193 558L267 466L268 463L265 460L249 422L172 232L-178 338L-180 340L-174 346L-180 354L-187 347L-193 344L-198 351L-194 355L-206 372L-211 367L-267 438Z"/><path d="M833 263L840 293L914 522L921 527L922 529L931 533L933 532L936 534L935 538L936 540L934 544L939 542L946 545L947 547L947 549L950 550L952 552L951 554L958 554L960 557L1053 536L1047 513L1034 470L1023 476L1016 454L1012 454L1011 455L1001 428L1012 420L1003 389L997 392L992 374L990 373L1085 343L1038 197L833 263Z"/><path d="M990 373L992 374L997 392L1003 389L1012 420L1001 428L1011 455L1012 454L1016 454L1023 476L1034 470L1047 513L1053 536L1137 517L1085 343L990 373Z"/><path d="M705 -154L790 123L794 136L797 140L800 153L812 193L812 195L814 196L833 263L1038 197L1030 172L1027 166L1025 155L985 23L976 4L975 -5L909 -220L705 -154Z"/><path d="M595 102L599 129L607 166L613 204L622 218L624 223L628 252L627 283L628 296L631 315L631 334L631 342L735 309L735 308L793 288L793 290L836 277L831 253L814 196L812 195L812 193L800 153L797 140L794 135L766 47L595 102Z"/><path d="M462 -34L487 103L490 110L592 77L595 102L766 47L705 -154L479 -85L480 -79L483 -76L479 -71L481 -67L480 -63L480 -59L472 -50L472 -46L469 -43L469 -38L462 -34Z"/></g>
-            <g class="m-cov"><path data-r="King" d="M172 232L249 422L526 340L501 188L490 110L487 103L462 -34L452 -28L446 -11L445 -4L448 3L445 6L448 10L449 16L446 21L446 28L443 49L440 52L440 57L435 60L433 64L432 70L437 74L433 80L434 82L433 84L432 90L429 91L429 94L420 96L419 103L415 104L415 107L406 115L399 119L398 123L396 123L394 125L390 126L390 129L387 128L387 131L384 133L384 135L376 134L364 138L366 141L365 142L363 144L363 147L367 148L364 150L363 154L367 154L368 156L366 161L362 163L360 161L357 165L358 168L356 169L354 167L353 172L352 173L346 171L345 172L345 176L342 174L342 177L337 180L332 180L328 178L323 179L325 183L324 183L314 184L312 181L313 189L172 232Z"/><path data-r="Vaughan" d="M249 422L265 460L268 463L267 465L327 608L334 628L595 548L585 488L577 492L555 500L543 429L526 340L249 422Z"/><path data-r="Richmond_Hill" d="M517 285L555 500L611 479L619 479L654 468L631 337L632 319L628 290L628 252L607 259L517 285Z"/><path data-r="Markham" d="M585 488L595 548L893 454L840 293L836 277L793 290L793 288L735 308L735 309L631 342L654 468L619 479L611 479L585 488Z"/><path data-r="Aurora" d="M501 188L517 285L607 259L628 252L623 220L613 204L605 156L501 188Z"/><path data-r="Newmarket" d="M490 110L501 188L605 156L599 129L592 77L490 110Z"/></g>
-            <circle class="m-sweep" cx="571" cy="413" r="0"><animate attributeName="r" values="0;560" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".55;0" dur="5s" repeatCount="indefinite"/></circle>
+            <circle cx="590" cy="430" r="640" fill="url(#mGlow)"/>
+            <g class="m-ctx"><path d="M-267 438L37 752L54 731L73 705L107 663L100 656L113 640L119 647L168 587L173 579L193 558L267 466L268 463L265 460L249 422L172 232L-178 338L-180 340L-174 346L-180 354L-187 347L-193 344L-198 351L-194 355L-206 372L-211 367L-267 438Z"/><path d="M705 -154L790 123L794 136L797 140L800 153L812 193L812 195L814 196L833 263L1038 197L1030 172L1027 166L1025 155L985 23L976 4L975 -5L909 -220L705 -154Z"/></g>
+            <g class="m-cov"><path data-r="Toronto" d="M334 628L336 631L394 769L371 799L372 802L377 802L383 804L386 804L390 802L395 805L398 814L398 817L399 823L398 827L398 828L411 834L419 831L420 829L424 830L424 835L422 835L422 840L420 842L421 846L419 848L419 852L424 855L420 858L420 861L433 871L434 876L436 878L436 883L442 884L441 891L445 894L443 897L447 900L447 905L448 908L452 909L450 904L467 897L481 901L493 899L515 868L526 859L538 840L540 822L554 817L594 833L609 834L626 860L681 858L714 848L718 796L723 793L767 758L787 729L805 713L818 709L829 697L831 685L852 657L871 636L894 622L917 615L947 579L960 557L958 554L951 554L952 552L950 550L947 549L947 547L946 545L939 542L934 544L936 540L935 538L936 534L933 532L931 533L922 529L921 527L914 522L893 454L650 532L334 628Z"/><path data-r="Mississauga" d="M131 895L132 899L135 903L187 955L208 977L220 986L229 991L265 1027L284 1003L351 1072L357 1076L372 1071L381 1054L383 1028L382 1000L385 986L415 959L410 955L420 943L434 937L438 929L443 924L450 930L452 927L449 924L453 921L454 919L452 909L447 906L447 900L443 897L445 894L441 891L442 884L436 883L436 878L434 876L433 871L420 861L420 858L424 855L419 852L419 848L421 846L420 842L422 840L422 835L424 835L424 830L420 829L419 831L411 834L398 828L398 827L399 823L398 817L398 814L395 805L390 802L386 804L383 804L377 802L372 802L371 799L394 769L345 652L340 656L334 649L294 699L295 709L289 718L273 762L253 787L223 810L189 852L169 860L155 873L157 875L150 877L144 880L131 895Z"/><path data-r="Brampton" d="M37 752L155 873L169 860L189 852L223 810L253 787L273 762L289 718L295 709L294 699L334 649L340 656L345 652L336 631L332 625L327 608L267 466L193 558L173 579L168 587L119 647L113 640L100 656L107 663L73 705L54 731L37 752Z"/><path data-r="Pickering" d="M833 263L840 293L914 522L921 527L922 529L931 533L933 532L936 534L935 538L936 540L934 544L939 542L946 545L947 547L947 549L950 550L952 552L951 554L958 554L960 557L1053 536L1047 513L1034 470L1023 476L1016 454L1012 454L1011 455L1001 428L1012 420L1003 389L997 392L992 374L990 373L1085 343L1038 197L833 263Z"/><path data-r="Ajax" d="M990 373L992 374L997 392L1003 389L1012 420L1001 428L1011 455L1012 454L1016 454L1023 476L1034 470L1047 513L1053 536L1137 517L1085 343L990 373Z"/><path data-r="King" d="M172 232L249 422L526 340L501 188L490 110L487 103L462 -34L452 -28L446 -11L445 -4L448 3L445 6L448 10L449 16L446 21L446 28L443 49L440 52L440 57L435 60L433 64L432 70L437 74L433 80L434 82L433 84L432 90L429 91L429 94L420 96L419 103L415 104L415 107L406 115L399 119L398 123L396 123L394 125L390 126L390 129L387 128L387 131L384 133L384 135L376 134L364 138L366 141L365 142L363 144L363 147L367 148L364 150L363 154L367 154L368 156L366 161L362 163L360 161L357 165L358 168L356 169L354 167L353 172L352 173L346 171L345 172L345 176L342 174L342 177L337 180L332 180L328 178L323 179L325 183L324 183L314 184L312 181L313 189L172 232Z"/><path data-r="Vaughan" d="M249 422L265 460L268 463L267 465L327 608L334 628L595 548L585 488L577 492L555 500L543 429L526 340L249 422Z"/><path data-r="Whitchurch-Stouffville" d="M595 102L599 129L607 166L613 204L622 218L624 223L628 252L627 283L628 296L631 315L631 334L631 342L735 309L735 308L793 288L793 290L836 277L831 253L814 196L812 195L812 193L800 153L797 140L794 135L766 47L595 102Z"/><path data-r="East_Gwillimbury" d="M462 -34L487 103L490 110L592 77L595 102L766 47L705 -154L479 -85L480 -79L483 -76L479 -71L481 -67L480 -63L480 -59L472 -50L472 -46L469 -43L469 -38L462 -34Z"/><path data-r="Richmond_Hill" d="M517 285L555 500L611 479L619 479L654 468L631 337L632 319L628 290L628 252L607 259L517 285Z"/><path data-r="Markham" d="M585 488L595 548L893 454L840 293L836 277L793 290L793 288L735 308L735 309L631 342L654 468L619 479L611 479L585 488Z"/><path data-r="Aurora" d="M501 188L517 285L607 259L628 252L623 220L613 204L605 156L501 188Z"/><path data-r="Newmarket" d="M490 110L501 188L605 156L599 129L592 77L490 110Z"/></g>
+            <circle class="m-sweep" cx="571" cy="413" r="0"><animate attributeName="r" values="0;760" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".55;0" dur="5s" repeatCount="indefinite"/></circle>
             <g id="mapPins"></g>
           </svg>
           <div class="amap-hud"><i></i>Coverage map</div>
@@ -977,33 +978,40 @@ $$('[data-ba]').forEach(el => {
 const areaMap = (() => {
   const svg = $('#mapSvg'), view = $('#mapView'), root = $('#amap'), pins = $('#mapPins'), list = $('#mapList'), info = $('#mapInfo');
   const NS = 'http://www.w3.org/2000/svg';
-  const BASE = innerWidth < 700 ? { x: 215, y: 40, w: 720, h: 690 } : { x: 100, y: -45, w: 880, h: 830 };
+  const BASE = { x: 20, y: -170, w: 1130, h: 1180 };
   const vb = { ...BASE };
   svg.style.aspectRatio = BASE.w + '/' + BASE.h;
   const TOWNS = [
-    { k: 'rh', n: 'Richmond Hill', x: 571, y: 413, r: ['Richmond_Hill'], f: ['L4B','L4C','L4E','L4S'], a: 't' },
+    { k: 'rh', n: 'Richmond Hill', x: 571, y: 413, r: ['Richmond_Hill'], f: ['L4B','L4C','L4E','L4S'], a: 'tr' },
     { k: 'va', n: 'Vaughan', x: 488, y: 463, r: ['Vaughan'], f: ['L4K','L6A'], a: 'l' },
-    { k: 'wb', n: 'Woodbridge', x: 387, y: 562, r: ['Vaughan'], f: ['L4H','L4L'], a: 'b' },
+    { k: 'wb', n: 'Woodbridge', x: 387, y: 562, r: ['Vaughan'], f: ['L4H','L4L'], a: 'l' },
     { k: 'mk', n: 'Markham', x: 783, y: 418, r: ['Markham'], f: ['L3P','L3S','L6B','L6E'], a: 'r' },
     { k: 'un', n: 'Unionville', x: 724, y: 436, r: ['Markham'], f: ['L3R','L6C','L6G'], a: 'b' },
     { k: 'th', n: 'Thornhill', x: 590, y: 519, r: ['Vaughan','Markham'], f: ['L4J','L3T'], a: 'b' },
-    { k: 'au', n: 'Aurora', x: 539, y: 215, r: ['Aurora'], f: ['L4G'], a: 'r' },
-    { k: 'nm', n: 'Newmarket', x: 546, y: 122, r: ['Newmarket'], f: ['L3X','L3Y'], a: 'r' },
-    { k: 'kc', n: 'King City', x: 467, y: 334, r: ['King'], f: ['L7B'], a: 'l' }
+    { k: 'au', n: 'Aurora', x: 539, y: 215, r: ['Aurora'], f: ['L4G'], a: 'l' },
+    { k: 'nm', n: 'Newmarket', x: 546, y: 122, r: ['Newmarket'], f: ['L3X','L3Y'], a: 'l' },
+    { k: 'kc', n: 'King City', x: 467, y: 334, r: ['King'], f: ['L7B'], a: 'l' },
+    { k: 'eg', n: 'East Gwillimbury', x: 610, y: 10, r: ['East_Gwillimbury'], f: ['L9N','L0G'], a: 't' },
+    { k: 'st', n: 'Stouffville', x: 798, y: 264, r: ['Whitchurch-Stouffville'], f: ['L4A'], a: 't' },
+    { k: 'to', n: 'Toronto', x: 640, y: 690, r: ['Toronto'], f: ['M'], fl: 'All Toronto postal codes (M)', a: 'b' },
+    { k: 'ms', n: 'Mississauga', x: 320, y: 860, r: ['Mississauga'], f: ['L4T','L4V','L4W','L4X','L4Y','L4Z','L5'], fl: 'Postal codes starting L5 and L4T to L4Z', a: 'b' },
+    { k: 'br', n: 'Brampton', x: 195, y: 661, r: ['Brampton'], f: ['L6P','L6R','L6S','L6T','L6V','L6W','L6X','L6Y','L6Z','L7A'], fl: 'Postal codes starting L6P to L6Z and L7A', a: 'b' },
+    { k: 'pk', n: 'Pickering', x: 975, y: 470, r: ['Pickering'], f: ['L1V','L1W','L1X','L1Y'], a: 'b' },
+    { k: 'aj', n: 'Ajax', x: 1071, y: 440, r: ['Ajax'], f: ['L1S','L1T','L1Z'], a: 't' }
   ];
-  const CTX = [['Toronto', 640, 690], ['Brampton', 205, 650], ['Caledon', 165, 420], ['Stouffville', 720, 215], ['Pickering', 925, 430], ['East Gwillimbury', 640, 40]];
+  const CTX = [['Caledon', 130, 400], ['Uxbridge', 900, 60], ['Lake Ontario', 930, 800]];
   const el = (t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
   const scaled = [], regions = $$('.m-cov path', svg);
   CTX.forEach(([n, x, y]) => { const g = el('g', { class: 'ctx-l' }), t = el('text', { 'text-anchor': 'middle' }); t.textContent = n; g.append(t); g._p = [x, y]; pins.append(g); scaled.push(g); });
   TOWNS.forEach(t => {
-    const g = el('g', { class: 'pin', 'data-k': t.k }), o = { t: [0, -13, 'middle'], b: [0, 23, 'middle'], l: [-12, 4, 'end'], r: [12, 4, 'start'] }[t.a];
+    const g = el('g', { class: 'pin', 'data-k': t.k }), o = { t: [0, -13, 'middle'], tr: [-5, -13, 'start'], b: [0, 23, 'middle'], l: [-12, 4, 'end'], r: [12, 4, 'start'] }[t.a];
     g._p = [t.x, t.y];
     const tx = el('text', { x: o[0], y: o[1], 'text-anchor': o[2] }); tx.textContent = t.n;
     g.append(el('circle', { class: 'hit', r: 20 }), el('circle', { class: 'pulse', r: 12 }), el('circle', { class: 'dot', r: 5 }), tx);
     g.addEventListener('click', () => select(t.k)); g.addEventListener('mouseenter', () => hot(t.k)); g.addEventListener('mouseleave', () => hot(null));
     pins.append(g); scaled.push(g);
     const b = document.createElement('button'); b.type = 'button'; b.dataset.k = t.k;
-    b.innerHTML = `<i></i><span>${t.n}</span><small>${t.f.join(' ')}</small>`;
+    b.innerHTML = `<i></i><span>${t.n}</span><small>${t.f.length > 4 || t.fl ? '' : t.f.join(' ')}</small>`;
     b.addEventListener('click', () => select(t.k)); b.addEventListener('mouseenter', () => hot(t.k)); b.addEventListener('mouseleave', () => hot(null));
     list.append(b);
   });
@@ -1029,11 +1037,11 @@ const areaMap = (() => {
     $$('button', list).forEach(b => b.classList.toggle('on', b.dataset.k === k));
     root.classList.toggle('picked', !!t);
     if (!t) {
-      info.innerHTML = `<span class="mi-k">${TOWNS.length} communities covered</span><b>Pick your area</b><span class="mi-f">Tap a pin or a highlighted community to see if we pick up on your street.</span>`;
+      info.innerHTML = `<span class="mi-k">${TOWNS.length} communities covered</span><b>Pick your area</b><span class="mi-f">Tap a pin or a highlighted community. We cover the whole GTA.</span>`;
       if (zoom) fly({ ...BASE }); return;
     }
-    info.innerHTML = `<span class="mi-k">We pick up in</span><b>${t.n}</b><span class="mi-f">Postal codes starting ${t.f.join(' · ')}</span><a class="btn btn-p" href="#quote" data-where="${t.n}">Get a quote in ${t.n}</a>`;
-    if (zoom) { const w = BASE.w * .52, h = w * BASE.h / BASE.w; fly({ x: t.x - w / 2, y: t.y - h / 2, w, h }); }
+    info.innerHTML = `<span class="mi-k">We pick up in</span><b>${t.n}</b><span class="mi-f">${t.fl || 'Postal codes starting ' + t.f.join(' · ')}</span><a class="btn btn-p" href="#quote" data-where="${t.n}">Get a quote in ${t.n}</a>`;
+    if (zoom) { const w = BASE.w * .42, h = w * BASE.h / BASE.w; fly({ x: t.x - w / 2, y: t.y - h / 2, w, h }); }
   }
   info.addEventListener('click', e => { const a = e.target.closest('a[data-where]'); if (a) $('#where').value = a.dataset.where; });
   regions.forEach(p => p.addEventListener('click', () => { const t = TOWNS.find(t => t.r[0] === p.dataset.r); if (t) select(t.k); }));
@@ -1056,7 +1064,7 @@ const areaMap = (() => {
   addEventListener('resize', apply);
   new IntersectionObserver((en, io) => { if (en[0].isIntersecting) { root.classList.add('live'); io.disconnect(); } }, { threshold: .25 }).observe(root);
   select(null, false); apply();
-  return { byFSA: f => { const t = TOWNS.find(t => t.f.includes(f)); if (t) select(t.k); return t; } };
+  return { byFSA: f => { const t = TOWNS.find(t => t.f.some(p => f.startsWith(p))); if (t) select(t.k); return t; } };
 })();
 
 /* ---------- postal checker ---------- */
@@ -1064,7 +1072,8 @@ const fsaOf = v => v.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 3);
 $('#pcForm').addEventListener('submit', e => {
   e.preventDefault(); const f = fsaOf($('#pc').value), out = $('#pcOut');
   if (!/^[A-Z]\d[A-Z]$/.test(f)) { out.className = 'check-out no'; out.textContent = 'Enter the first three characters, like L4C.'; return; }
-  if (CONFIG.FSA.includes(f)) { const t = areaMap.byFSA(f); out.className = 'check-out ok'; out.innerHTML = `Yes, ${f}${t ? ' (' + t.n + ')' : ''} is in our pickup area. <a href="#quote" style="text-decoration:underline">Get your quote →</a>`; if (!$('#where').value) $('#where').value = f; }
+  const t = areaMap.byFSA(f);
+  if (t || CONFIG.FSA.includes(f)) { out.className = 'check-out ok'; out.innerHTML = `Yes, ${f}${t ? ' (' + t.n + ')' : ''} is in our pickup area. <a href="#quote" style="text-decoration:underline">Get your quote →</a>`; if (!$('#where').value) $('#where').value = f; }
   else { out.className = 'check-out no'; out.innerHTML = `${f} is outside our usual area. <a href="#quote" style="text-decoration:underline">Send the details anyway</a> and we'll tell you if we can make it work.`; }
 });
 
