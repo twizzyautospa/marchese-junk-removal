@@ -209,21 +209,74 @@ html.rm .hero-h1{display:block}
 .rv-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
 
 /* AREA */
-.area{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(26px,5vw,70px);align-items:start}
-.towns{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
-.towns span{border:1px solid var(--line2);border-radius:999px;padding:10px 18px;font-size:16px;display:inline-flex;align-items:center;gap:8px}
-.towns span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.amap{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);margin-top:44px;padding:0;overflow:hidden}
+.amap-stage{position:relative;min-width:0;border-right:1px solid var(--line)}
+.amap-view{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 55% 42%,#111b10 0%,#070a07 72%);cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.amap-view.drag{cursor:grabbing}
+#mapSvg{display:block;width:100%;height:auto;aspect-ratio:880/830}
+.m-ctx path{fill:rgba(255,255,255,.022);stroke:rgba(255,255,255,.13);stroke-width:1;vector-effect:non-scaling-stroke}
+.m-cov path{fill:rgba(116,240,30,.08);stroke:rgba(116,240,30,.62);stroke-width:1.4;stroke-linejoin:round;vector-effect:non-scaling-stroke;cursor:pointer;opacity:0;transition:fill .35s,filter .35s,opacity .9s}
+.amap.live .m-cov path{opacity:1}
+.m-cov path:nth-child(2){transition-delay:0s,0s,.12s}.m-cov path:nth-child(3){transition-delay:0s,0s,.24s}.m-cov path:nth-child(4){transition-delay:0s,0s,.36s}.m-cov path:nth-child(5){transition-delay:0s,0s,.48s}.m-cov path:nth-child(6){transition-delay:0s,0s,.6s}
+.m-cov path.hot{fill:rgba(116,240,30,.2)}
+.m-cov path.on{fill:rgba(116,240,30,.32);filter:drop-shadow(0 0 12px rgba(116,240,30,.6))}
+.amap.picked .m-cov path:not(.on):not(.hot){fill:rgba(116,240,30,.04);stroke:rgba(116,240,30,.3)}
+@media(hover:hover){.m-cov path:hover{fill:rgba(116,240,30,.2)}}
+.m-sweep{fill:none;stroke:var(--acc);stroke-width:1.2;vector-effect:non-scaling-stroke;pointer-events:none}
+.ctx-l text{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;fill:rgba(255,255,255,.26);pointer-events:none}
+.pin{cursor:pointer;opacity:0;transition:opacity .6s .7s}
+.amap.live .pin{opacity:1}
+.pin .hit{fill:transparent}
+.pin .dot{fill:var(--acc);stroke:#070a07;stroke-width:2;transition:r .25s}
+.pin .pulse{fill:none;stroke:var(--acc);stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:pinP 2.6s cubic-bezier(.2,.6,.3,1) infinite}
+.pin:nth-of-type(3n) .pulse{animation-delay:.8s}.pin:nth-of-type(3n+1) .pulse{animation-delay:1.6s}
+.pin text{font-family:var(--head);font-size:12.5px;font-weight:600;fill:rgba(255,255,255,.82);paint-order:stroke;stroke:#070a07;stroke-width:3.5px;stroke-linejoin:round;transition:fill .25s}
+.pin.hot text,.pin.on text{fill:var(--acc)}
+.pin.on .dot,.pin.hot .dot{r:7px;fill:#fff}
+.amap.picked .pin:not(.on):not(.hot){opacity:.55}
+@keyframes pinP{0%{transform:scale(.35);opacity:.95}100%{transform:scale(2);opacity:0}}
+.amap-hud{position:absolute;left:16px;top:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line2);border-radius:999px;background:rgba(7,10,7,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);pointer-events:none}
+.amap-hud i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc);animation:hudB 1.6s ease-in-out infinite}
+@keyframes hudB{50%{opacity:.3}}
+.amap-zoom{position:absolute;right:14px;top:14px;display:flex;flex-direction:column;gap:6px}
+.amap-zoom button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line2);background:rgba(7,10,7,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:20px;line-height:1;display:grid;place-items:center;transition:.2s}
+.amap-zoom button:hover{background:var(--acc);border-color:var(--acc);color:#0A0D0A}
+.amap-info{position:absolute;left:16px;bottom:16px;width:min(340px,calc(100% - 32px));padding:18px 20px;border:1px solid var(--line2);border-radius:16px;background:rgba(10,13,10,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);display:flex;flex-direction:column;gap:6px}
+.amap-info .mi-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+.amap-info b{font-size:28px;line-height:1.1;letter-spacing:-.02em;font-weight:700}
+.amap-info .mi-f{color:var(--mut);font-size:14.5px}
+.amap-info .btn{margin-top:10px;align-self:flex-start}
+.amap-side{padding:clamp(20px,2.4vw,30px);display:flex;flex-direction:column;min-width:0}
+.amap-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.amap-list{display:flex;flex-direction:column;margin-top:10px}
+.amap-list button{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 10px;margin:0 -10px;border-radius:10px;text-align:left;font-size:16.5px;font-weight:500;border-bottom:1px solid var(--line);transition:background .2s,color .2s}
+.amap-list button i{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none;transition:.2s}
+.amap-list button small{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.34);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.amap-list button:hover{background:rgba(255,255,255,.05)}
+.amap-list button.on{background:var(--acc);color:#0A0D0A;font-weight:700;border-color:transparent}
+.amap-list button.on i{background:#0A0D0A}.amap-list button.on small{color:rgba(10,13,10,.6)}
 .check{padding:clamp(24px,3vw,38px)}
+.amap-side .check{padding:0;margin-top:26px}
 .check h3{font-size:26px;margin-bottom:8px}
+.amap-side .check h3{font-size:21px}
 .check p{color:var(--mut);font-size:15.5px}
 .check form{display:flex;gap:10px;margin-top:20px}
+.amap-side .check form{margin-top:14px}
 .inp{width:100%;min-height:54px;background:#0A0D0A;border:1px solid var(--line2);border-radius:14px;padding:0 16px;color:#fff;font:inherit;font-size:17px;outline:0;transition:border-color .2s}
 .inp:focus{border-color:var(--acc)}
 .inp::placeholder{color:rgba(255,255,255,.3)}
 textarea.inp{padding:14px 16px;min-height:110px;resize:vertical}
 .check-out{margin-top:16px;min-height:26px;font-size:15.5px}
 .check-out.ok{color:var(--acc)}.check-out.no{color:#ffb020}
-@media(max-width:860px){.area{grid-template-columns:1fr}}
+@media(max-width:980px){
+  .amap{grid-template-columns:1fr}
+  .amap-stage{border-right:0;border-bottom:1px solid var(--line)}
+  .amap-info{position:static;width:auto;border:0;border-top:1px solid var(--line);border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;min-height:150px;justify-content:center}
+  .amap-list{flex-direction:row;flex-wrap:wrap;gap:8px}
+  .amap-list button{width:auto;margin:0;padding:0 14px;border:1px solid var(--line2);border-radius:999px;font-size:15px}
+  .amap-list button small{display:none}
+}
+@media(prefers-reduced-motion:reduce){.pin .pulse,.amap-hud i{animation:none}.m-sweep{display:none}}
 
 /* FAQ */
 .faq{max-width:860px;margin-top:44px}
@@ -512,20 +565,46 @@ a,button,label,summary,.opt,.chip{touch-action:manipulation}
 
 <!-- ================= AREA ================= -->
 <section class="sec" id="area" style="padding-top:0">
-  <div class="wrap area">
-    <div>
-      <span class="eyebrow rise">Service area</span>
-      <h2 class="h2 rise"><span>Based in the GTA.</span><em>All over York Region.</em></h2>
-      <div class="towns rise"><span>Richmond Hill</span><span>Vaughan</span><span>Woodbridge</span><span>Markham</span><span>Unionville</span><span>Thornhill</span><span>Aurora</span><span>Newmarket</span><span>King City</span></div>
-    </div>
-    <div class="card check rise">
-      <h3>Are you in our zone?</h3>
-      <p>Enter the first three characters of your postal code.</p>
-      <form id="pcForm" novalidate>
-        <input class="inp" id="pc" inputmode="text" autocomplete="postal-code" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" maxlength="7" placeholder="L4C" aria-label="Postal code">
-        <button class="btn btn-p" type="submit">Check</button>
-      </form>
-      <div class="check-out" id="pcOut" role="status"></div>
+  <div class="wrap">
+    <span class="eyebrow rise">Service area</span>
+    <h2 class="h2 rise"><span>Based in the GTA.</span><em>All over York Region.</em></h2>
+    <div class="card amap rise" id="amap">
+      <div class="amap-stage">
+        <div class="amap-view" id="mapView">
+          <svg id="mapSvg" viewBox="100 -45 880 830" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <pattern id="mGrid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.035)" stroke-width="1"/></pattern>
+              <radialGradient id="mGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="rgba(116,240,30,.20)"/><stop offset="1" stop-color="rgba(116,240,30,0)"/></radialGradient>
+            </defs>
+            <rect x="-400" y="-400" width="1900" height="1700" fill="url(#mGrid)"/>
+            <circle cx="560" cy="360" r="430" fill="url(#mGlow)"/>
+            <g class="m-ctx"><path d="M334 628L336 631L394 769L371 799L372 802L377 802L383 804L386 804L390 802L395 805L398 814L398 817L399 823L398 827L398 828L411 834L419 831L420 829L424 830L424 835L422 835L422 840L420 842L421 846L419 848L419 852L424 855L420 858L420 861L433 871L434 876L436 878L436 883L442 884L441 891L445 894L443 897L447 900L447 905L448 908L452 909L450 904L467 897L481 901L493 899L515 868L526 859L538 840L540 822L554 817L594 833L609 834L626 860L681 858L714 848L718 796L723 793L767 758L787 729L805 713L818 709L829 697L831 685L852 657L871 636L894 622L917 615L947 579L960 557L958 554L951 554L952 552L950 550L947 549L947 547L946 545L939 542L934 544L936 540L935 538L936 534L933 532L931 533L922 529L921 527L914 522L893 454L650 532L334 628Z"/><path d="M131 895L132 899L135 903L187 955L208 977L220 986L229 991L265 1027L284 1003L351 1072L357 1076L372 1071L381 1054L383 1028L382 1000L385 986L415 959L410 955L420 943L434 937L438 929L443 924L450 930L452 927L449 924L453 921L454 919L452 909L447 906L447 900L443 897L445 894L441 891L442 884L436 883L436 878L434 876L433 871L420 861L420 858L424 855L419 852L419 848L421 846L420 842L422 840L422 835L424 835L424 830L420 829L419 831L411 834L398 828L398 827L399 823L398 817L398 814L395 805L390 802L386 804L383 804L377 802L372 802L371 799L394 769L345 652L340 656L334 649L294 699L295 709L289 718L273 762L253 787L223 810L189 852L169 860L155 873L157 875L150 877L144 880L131 895Z"/><path d="M37 752L155 873L169 860L189 852L223 810L253 787L273 762L289 718L295 709L294 699L334 649L340 656L345 652L336 631L332 625L327 608L267 466L193 558L173 579L168 587L119 647L113 640L100 656L107 663L73 705L54 731L37 752Z"/><path d="M-267 438L37 752L54 731L73 705L107 663L100 656L113 640L119 647L168 587L173 579L193 558L267 466L268 463L265 460L249 422L172 232L-178 338L-180 340L-174 346L-180 354L-187 347L-193 344L-198 351L-194 355L-206 372L-211 367L-267 438Z"/><path d="M833 263L840 293L914 522L921 527L922 529L931 533L933 532L936 534L935 538L936 540L934 544L939 542L946 545L947 547L947 549L950 550L952 552L951 554L958 554L960 557L1053 536L1047 513L1034 470L1023 476L1016 454L1012 454L1011 455L1001 428L1012 420L1003 389L997 392L992 374L990 373L1085 343L1038 197L833 263Z"/><path d="M990 373L992 374L997 392L1003 389L1012 420L1001 428L1011 455L1012 454L1016 454L1023 476L1034 470L1047 513L1053 536L1137 517L1085 343L990 373Z"/><path d="M705 -154L790 123L794 136L797 140L800 153L812 193L812 195L814 196L833 263L1038 197L1030 172L1027 166L1025 155L985 23L976 4L975 -5L909 -220L705 -154Z"/><path d="M595 102L599 129L607 166L613 204L622 218L624 223L628 252L627 283L628 296L631 315L631 334L631 342L735 309L735 308L793 288L793 290L836 277L831 253L814 196L812 195L812 193L800 153L797 140L794 135L766 47L595 102Z"/><path d="M462 -34L487 103L490 110L592 77L595 102L766 47L705 -154L479 -85L480 -79L483 -76L479 -71L481 -67L480 -63L480 -59L472 -50L472 -46L469 -43L469 -38L462 -34Z"/></g>
+            <g class="m-cov"><path data-r="King" d="M172 232L249 422L526 340L501 188L490 110L487 103L462 -34L452 -28L446 -11L445 -4L448 3L445 6L448 10L449 16L446 21L446 28L443 49L440 52L440 57L435 60L433 64L432 70L437 74L433 80L434 82L433 84L432 90L429 91L429 94L420 96L419 103L415 104L415 107L406 115L399 119L398 123L396 123L394 125L390 126L390 129L387 128L387 131L384 133L384 135L376 134L364 138L366 141L365 142L363 144L363 147L367 148L364 150L363 154L367 154L368 156L366 161L362 163L360 161L357 165L358 168L356 169L354 167L353 172L352 173L346 171L345 172L345 176L342 174L342 177L337 180L332 180L328 178L323 179L325 183L324 183L314 184L312 181L313 189L172 232Z"/><path data-r="Vaughan" d="M249 422L265 460L268 463L267 465L327 608L334 628L595 548L585 488L577 492L555 500L543 429L526 340L249 422Z"/><path data-r="Richmond_Hill" d="M517 285L555 500L611 479L619 479L654 468L631 337L632 319L628 290L628 252L607 259L517 285Z"/><path data-r="Markham" d="M585 488L595 548L893 454L840 293L836 277L793 290L793 288L735 308L735 309L631 342L654 468L619 479L611 479L585 488Z"/><path data-r="Aurora" d="M501 188L517 285L607 259L628 252L623 220L613 204L605 156L501 188Z"/><path data-r="Newmarket" d="M490 110L501 188L605 156L599 129L592 77L490 110Z"/></g>
+            <circle class="m-sweep" cx="571" cy="413" r="0"><animate attributeName="r" values="0;560" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".55;0" dur="5s" repeatCount="indefinite"/></circle>
+            <g id="mapPins"></g>
+          </svg>
+          <div class="amap-hud"><i></i>Coverage map</div>
+          <div class="amap-zoom">
+            <button type="button" data-z="in" aria-label="Zoom in">+</button>
+            <button type="button" data-z="out" aria-label="Zoom out">&minus;</button>
+            <button type="button" data-z="reset" aria-label="Reset map">&#8634;</button>
+          </div>
+        </div>
+        <div class="amap-info" id="mapInfo" aria-live="polite"></div>
+      </div>
+      <aside class="amap-side">
+        <span class="amap-k">Where we pick up</span>
+        <div class="amap-list" id="mapList"></div>
+        <div class="check">
+          <h3>Are you in our zone?</h3>
+          <p>Enter the first three characters of your postal code.</p>
+          <form id="pcForm" novalidate>
+            <input class="inp" id="pc" inputmode="text" autocomplete="postal-code" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" maxlength="7" placeholder="L4C" aria-label="Postal code">
+            <button class="btn btn-p" type="submit">Check</button>
+          </form>
+          <div class="check-out" id="pcOut" role="status"></div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
@@ -894,12 +973,98 @@ $$('[data-ba]').forEach(el => {
   });
 })();
 
+/* ---------- service map ---------- */
+const areaMap = (() => {
+  const svg = $('#mapSvg'), view = $('#mapView'), root = $('#amap'), pins = $('#mapPins'), list = $('#mapList'), info = $('#mapInfo');
+  const NS = 'http://www.w3.org/2000/svg';
+  const BASE = innerWidth < 700 ? { x: 215, y: 40, w: 720, h: 690 } : { x: 100, y: -45, w: 880, h: 830 };
+  const vb = { ...BASE };
+  svg.style.aspectRatio = BASE.w + '/' + BASE.h;
+  const TOWNS = [
+    { k: 'rh', n: 'Richmond Hill', x: 571, y: 413, r: ['Richmond_Hill'], f: ['L4B','L4C','L4E','L4S'], a: 't' },
+    { k: 'va', n: 'Vaughan', x: 488, y: 463, r: ['Vaughan'], f: ['L4K','L6A'], a: 'l' },
+    { k: 'wb', n: 'Woodbridge', x: 387, y: 562, r: ['Vaughan'], f: ['L4H','L4L'], a: 'b' },
+    { k: 'mk', n: 'Markham', x: 783, y: 418, r: ['Markham'], f: ['L3P','L3S','L6B','L6E'], a: 'r' },
+    { k: 'un', n: 'Unionville', x: 724, y: 436, r: ['Markham'], f: ['L3R','L6C','L6G'], a: 'b' },
+    { k: 'th', n: 'Thornhill', x: 590, y: 519, r: ['Vaughan','Markham'], f: ['L4J','L3T'], a: 'b' },
+    { k: 'au', n: 'Aurora', x: 539, y: 215, r: ['Aurora'], f: ['L4G'], a: 'r' },
+    { k: 'nm', n: 'Newmarket', x: 546, y: 122, r: ['Newmarket'], f: ['L3X','L3Y'], a: 'r' },
+    { k: 'kc', n: 'King City', x: 467, y: 334, r: ['King'], f: ['L7B'], a: 'l' }
+  ];
+  const CTX = [['Toronto', 640, 690], ['Brampton', 205, 650], ['Caledon', 165, 420], ['Stouffville', 720, 215], ['Pickering', 925, 430], ['East Gwillimbury', 640, 40]];
+  const el = (t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+  const scaled = [], regions = $$('.m-cov path', svg);
+  CTX.forEach(([n, x, y]) => { const g = el('g', { class: 'ctx-l' }), t = el('text', { 'text-anchor': 'middle' }); t.textContent = n; g.append(t); g._p = [x, y]; pins.append(g); scaled.push(g); });
+  TOWNS.forEach(t => {
+    const g = el('g', { class: 'pin', 'data-k': t.k }), o = { t: [0, -13, 'middle'], b: [0, 23, 'middle'], l: [-12, 4, 'end'], r: [12, 4, 'start'] }[t.a];
+    g._p = [t.x, t.y];
+    const tx = el('text', { x: o[0], y: o[1], 'text-anchor': o[2] }); tx.textContent = t.n;
+    g.append(el('circle', { class: 'hit', r: 20 }), el('circle', { class: 'pulse', r: 12 }), el('circle', { class: 'dot', r: 5 }), tx);
+    g.addEventListener('click', () => select(t.k)); g.addEventListener('mouseenter', () => hot(t.k)); g.addEventListener('mouseleave', () => hot(null));
+    pins.append(g); scaled.push(g);
+    const b = document.createElement('button'); b.type = 'button'; b.dataset.k = t.k;
+    b.innerHTML = `<i></i><span>${t.n}</span><small>${t.f.join(' ')}</small>`;
+    b.addEventListener('click', () => select(t.k)); b.addEventListener('mouseenter', () => hot(t.k)); b.addEventListener('mouseleave', () => hot(null));
+    list.append(b);
+  });
+  function apply() {
+    svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+    const u = vb.w / (svg.clientWidth || BASE.w);
+    scaled.forEach(g => g.setAttribute('transform', `translate(${g._p[0]} ${g._p[1]}) scale(${u})`));
+  }
+  function clamp(o) {
+    o.w = Math.min(BASE.w, Math.max(BASE.w * .3, o.w)); o.h = o.w * BASE.h / BASE.w;
+    o.x = Math.min(BASE.x + BASE.w - o.w, Math.max(BASE.x, o.x)); o.y = Math.min(BASE.y + BASE.h - o.h, Math.max(BASE.y, o.y)); return o;
+  }
+  function fly(o, d = 1.1) { clamp(o); gsap.to(vb, { x: o.x, y: o.y, w: o.w, h: o.h, duration: d, ease: 'power3.inOut', onUpdate: apply, overwrite: true }); }
+  function hot(k) {
+    const t = TOWNS.find(t => t.k === k);
+    regions.forEach(p => p.classList.toggle('hot', !!t && t.r.includes(p.dataset.r)));
+    $$('.pin', svg).forEach(p => p.classList.toggle('hot', p.dataset.k === k));
+  }
+  function select(k, zoom = true) {
+    const t = TOWNS.find(t => t.k === k);
+    regions.forEach(p => p.classList.toggle('on', !!t && t.r.includes(p.dataset.r)));
+    $$('.pin', svg).forEach(p => p.classList.toggle('on', p.dataset.k === k));
+    $$('button', list).forEach(b => b.classList.toggle('on', b.dataset.k === k));
+    root.classList.toggle('picked', !!t);
+    if (!t) {
+      info.innerHTML = `<span class="mi-k">${TOWNS.length} communities covered</span><b>Pick your area</b><span class="mi-f">Tap a pin or a highlighted community to see if we pick up on your street.</span>`;
+      if (zoom) fly({ ...BASE }); return;
+    }
+    info.innerHTML = `<span class="mi-k">We pick up in</span><b>${t.n}</b><span class="mi-f">Postal codes starting ${t.f.join(' · ')}</span><a class="btn btn-p" href="#quote" data-where="${t.n}">Get a quote in ${t.n}</a>`;
+    if (zoom) { const w = BASE.w * .52, h = w * BASE.h / BASE.w; fly({ x: t.x - w / 2, y: t.y - h / 2, w, h }); }
+  }
+  info.addEventListener('click', e => { const a = e.target.closest('a[data-where]'); if (a) $('#where').value = a.dataset.where; });
+  regions.forEach(p => p.addEventListener('click', () => { const t = TOWNS.find(t => t.r[0] === p.dataset.r); if (t) select(t.k); }));
+  $$('.amap-zoom button', root).forEach(b => b.addEventListener('click', () => {
+    const z = b.dataset.z; if (z === 'reset') return select(null);
+    const f = z === 'in' ? .65 : 1 / .65, w = vb.w * f, h = vb.h * f;
+    fly({ x: vb.x + (vb.w - w) / 2, y: vb.y + (vb.h - h) / 2, w, h }, .5);
+  }));
+  /* mouse drag to pan (touch keeps normal page scroll) */
+  let drag = null, moved = false;
+  view.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' || e.button || e.target.closest('.amap-zoom')) return; drag = { x: e.clientX, y: e.clientY, vx: vb.x, vy: vb.y }; moved = false; });
+  addEventListener('pointermove', e => {
+    if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!moved && Math.hypot(dx, dy) < 5) return;
+    if (!moved) { moved = true; view.classList.add('drag'); gsap.killTweensOf(vb); }
+    const u = vb.w / svg.clientWidth; vb.x = drag.vx - dx * u; vb.y = drag.vy - dy * u; clamp(vb); apply();
+  });
+  addEventListener('pointerup', () => { if (drag) { drag = null; view.classList.remove('drag'); setTimeout(() => moved = false, 0); } });
+  view.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); } }, true);
+  addEventListener('resize', apply);
+  new IntersectionObserver((en, io) => { if (en[0].isIntersecting) { root.classList.add('live'); io.disconnect(); } }, { threshold: .25 }).observe(root);
+  select(null, false); apply();
+  return { byFSA: f => { const t = TOWNS.find(t => t.f.includes(f)); if (t) select(t.k); return t; } };
+})();
+
 /* ---------- postal checker ---------- */
 const fsaOf = v => v.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 3);
 $('#pcForm').addEventListener('submit', e => {
   e.preventDefault(); const f = fsaOf($('#pc').value), out = $('#pcOut');
   if (!/^[A-Z]\d[A-Z]$/.test(f)) { out.className = 'check-out no'; out.textContent = 'Enter the first three characters, like L4C.'; return; }
-  if (CONFIG.FSA.includes(f)) { out.className = 'check-out ok'; out.innerHTML = `Yes, ${f} is in our pickup area. <a href="#quote" style="text-decoration:underline">Get your quote →</a>`; if (!$('#where').value) $('#where').value = f; }
+  if (CONFIG.FSA.includes(f)) { const t = areaMap.byFSA(f); out.className = 'check-out ok'; out.innerHTML = `Yes, ${f}${t ? ' (' + t.n + ')' : ''} is in our pickup area. <a href="#quote" style="text-decoration:underline">Get your quote →</a>`; if (!$('#where').value) $('#where').value = f; }
   else { out.className = 'check-out no'; out.innerHTML = `${f} is outside our usual area. <a href="#quote" style="text-decoration:underline">Send the details anyway</a> and we'll tell you if we can make it work.`; }
 });
 
